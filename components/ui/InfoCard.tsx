@@ -1,3 +1,7 @@
+"use client";
+
+import { useRef, useState } from "react";
+
 type InfoCardProps = {
   title: string;
   description: string;
@@ -15,6 +19,24 @@ export default function InfoCard({
   children,
   action,
 }: InfoCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [style, setStyle] = useState<React.CSSProperties>({});
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const y = e.clientY - rect.top;
+    const centerY = rect.height / 2;
+    const rotateX = Math.min(0, ((centerY - y) / centerY) * 6);
+    setStyle({
+      transform: `perspective(800px) rotateX(${rotateX}deg)`,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setStyle({});
+  };
+
   const accentStyles = {
     gold: "border-[#b68134]/30 bg-gradient-to-br from-[#f8efe0] to-white",
     green: "border-[#5d745e]/20 bg-gradient-to-br from-[#eef4eb] to-white",
@@ -27,7 +49,11 @@ export default function InfoCard({
 
   return (
     <div
-      className={`rounded-[30px] border p-8 shadow-[0_18px_40px_-24px_rgba(20,33,61,0.2)] ${accentStyles[accent]}`}
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={style}
+      className={`rounded-[30px] border p-8 shadow-[0_18px_40px_-24px_rgba(20,33,61,0.2)] transition-transform duration-200 ease-out ${accentStyles[accent]}`}
     >
       <span
         className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] ${badgeStyles[accent]}`}
