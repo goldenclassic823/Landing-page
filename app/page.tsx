@@ -1,65 +1,47 @@
-import Image from "next/image";
+import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import BuyerSellerCard from "../components/BuyerSellerCard";
+import Button from "../components/ui/Button";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className="relative isolate min-h-screen overflow-hidden bg-transparent pt-24 text-[#1B1B1B]">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.15),transparent_42%)]" />
+      <div className="absolute -left-16 top-40 -z-10 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+      <div className="absolute -right-20 top-88 -z-10 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
+
+      <div className="relative">
+        <Navbar />
+        <Hero />
+        <BuyerSellerCard />
+
+        <section className="mx-auto max-w-7xl px-6 pb-24">
+          <div className="rounded-4xl border border-[#14213D]/10 bg-[#14213D] p-8 text-white shadow-[0_20px_70px_-24px_rgba(20,33,61,0.8)] md:flex md:items-center md:justify-between md:p-10">
+            <div className="max-w-2xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#E8A33D]">
+                Ready to launch
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.02em] sm:text-4xl">
+                Turn browsing into a trusted payment experience.
+              </h2>
+              <p className="mt-3 text-lg leading-8 text-white/80">
+                Join a marketplace designed for modern buyers, thoughtful
+                sellers, and secure payments built into every exchange.
+              </p>
+            </div>
+
+            <div className="mt-6 md:mt-0">
+              <Button
+                href="#sell"
+                variant="accent"
+                className="bg-white text-[#14213D] hover:bg-[#f2f2f2]"
+              >
+                Create your listing
+              </Button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
   );
 }
