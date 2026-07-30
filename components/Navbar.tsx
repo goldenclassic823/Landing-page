@@ -64,7 +64,7 @@ export default function Navbar({ view, onViewChange }: NavbarProps) {
           }}
           className="rounded-full border border-[#1f2a37]/10 bg-white px-5 py-2.5 text-sm font-semibold text-[#1f2a37] shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-[#f7f2e8]"
         >
-          Join waitlist
+          Join Waitlist
         </button>
       </div>
     </nav>

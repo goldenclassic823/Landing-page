@@ -47,7 +47,7 @@ export default function Home() {
 
       <div className="relative">
         <Navbar view={view} onViewChange={setView} />
-        <Hero />
+        <Hero view={view} />
         <BuyerSellerCard view={view} />
         <FAQ view={view} />
 

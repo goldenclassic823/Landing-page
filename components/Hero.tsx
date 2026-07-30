@@ -1,6 +1,5 @@
-"use client";
-
 import Image from "next/image";
+import type { ViewMode } from "../app/page";
 import Button from "./ui/Button";
 
 const highlights = [
@@ -24,6 +23,10 @@ const galleryImages = [
   },
 ];
 
+type HeroProps = {
+  view: ViewMode;
+};
+
 const scrollTo = (id: string) => {
   const target = document.querySelector(id);
   if (target) {
@@ -31,7 +34,47 @@ const scrollTo = (id: string) => {
   }
 };
 
-export default function Hero() {
+export default function Hero({ view }: HeroProps) {
+  const buttons = {
+    overview: (
+      <>
+        <Button onClick={() => scrollTo("#survey")} variant="accent">
+          Survey
+        </Button>
+        <Button onClick={() => scrollTo("#how")} variant="primary">
+          How NorthLane works
+        </Button>
+      </>
+    ),
+    buyer: (
+      <>
+        <Button onClick={() => scrollTo("#survey")} variant="accent">
+          Take the Survey — 2 mins
+        </Button>
+        <a
+          href="#how"
+          onClick={(e) => { e.preventDefault(); scrollTo("#how"); }}
+          className="text-sm font-medium text-white/80 underline underline-offset-4 transition hover:text-white"
+        >
+          See How It Works →
+        </a>
+      </>
+    ),
+    seller: (
+      <>
+        <Button onClick={() => scrollTo("#survey")} variant="secondary">
+          Take the Seller Survey
+        </Button>
+        <a
+          href="#how"
+          onClick={(e) => { e.preventDefault(); scrollTo("#how"); }}
+          className="text-sm font-medium text-white/80 underline underline-offset-4 transition hover:text-white"
+        >
+          See How It Works →
+        </a>
+      </>
+    ),
+  };
 
   return (
     <section className="relative px-6 py-20 md:py-28 lg:py-32">
@@ -52,11 +95,8 @@ export default function Hero() {
                 connections and smooth transactions from start to finish.
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-4">
-                <Button onClick={() => scrollTo("#how")} variant="primary">
-                  Take the seller survey
-                </Button>
-                <a href="/how it work">How it work</a>
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                {buttons[view]}
               </div>
 
               <div className="mt-10 flex flex-wrap gap-4">

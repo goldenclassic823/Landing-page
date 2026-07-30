@@ -1,77 +1,63 @@
 import type { ViewMode } from "../app/page";
 import Button from "./ui/Button";
+import InfoCard from "./ui/InfoCard";
+
+const buyerBenefits = [
+  "Discover curated listings tailored to your needs",
+  "Pay securely within the platform for a trusted checkout",
+  "Complete purchases with guided support and clear confirmation",
+];
+
+const sellerBenefits = [
+  "Post items in minutes with a polished listing",
+  "Reach buyers who are ready to purchase",
+  "Receive payments safely and manage transactions with confidence",
+];
 
 type BuyerSellerCardProps = {
   view: ViewMode;
 };
 
-const scrollTo = (id: string) => {
-  const target = document.querySelector(id);
-  if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-};
-
 export default function BuyerSellerCard({ view }: BuyerSellerCardProps) {
-  const buyerContent = (
-    <div id="buy" className="rounded-[30px] border border-[#b68134]/30 bg-gradient-to-br from-[#f8efe0] to-white p-8 shadow-[0_18px_40px_-24px_rgba(20,33,61,0.2)]">
-      <a
-        href="#how"
-        onClick={(e) => { e.preventDefault(); scrollTo("#how"); }}
-        className="mb-5 inline-block text-sm font-medium text-[#8a5f16] underline underline-offset-4 transition hover:text-[#6b4a10]"
+  const buyerCard = (
+    <div id="buy">
+      <InfoCard
+        eyebrow="For buyers"
+        title="Buy with trust and ease"
+        description="Browse refined listings, compare details, and complete payments on the platform with a secure and reassuring buying journey."
+        accent="gold"
+        action={<Button href="#buy" variant="accent">Browse available products</Button>}
       >
-        See How It Works →
-      </a>
-      <h3 className="text-2xl font-semibold text-[#14213D]">Take the Survey — 2 mins</h3>
-      <ul className="mt-6 space-y-3 text-sm text-slate-700">
-        <li className="flex items-start gap-3">
-          <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#b68134]" />
-          <span>Funds held securely</span>
-        </li>
-        <li className="flex items-start gap-3">
-          <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#b68134]" />
-          <span>Free to use as a buyer</span>
-        </li>
-        <li className="flex items-start gap-3">
-          <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#b68134]" />
-          <span>Full refund if undelivered</span>
-        </li>
-      </ul>
-      <div className="mt-8">
-        <Button onClick={() => scrollTo("#survey")} variant="accent">
-          Take the Survey — 2 mins
-        </Button>
-      </div>
+        <ul className="mt-6 space-y-3 text-sm text-slate-100/95">
+          {buyerBenefits.map((item) => (
+            <li key={item} className="flex items-start gap-3">
+              <span className="mt-1 h-2.5 w-2.5 rounded-full bg-[#b68134]" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </InfoCard>
     </div>
   );
 
-  const sellerContent = (
-    <div id="sell" className="rounded-[30px] border border-[#5d745e]/20 bg-gradient-to-br from-[#eef4eb] to-white p-8 shadow-[0_18px_40px_-24px_rgba(20,33,61,0.2)]">
-      <a
-        href="#how"
-        onClick={(e) => { e.preventDefault(); scrollTo("#how"); }}
-        className="mb-5 inline-block text-sm font-medium text-[#5d745e] underline underline-offset-4 transition hover:text-[#4a5c4b]"
+  const sellerCard = (
+    <div id="sell">
+      <InfoCard
+        eyebrow="For sellers"
+        title="Sell with confidence"
+        description="Share what you are selling, reach interested buyers, and receive payment safely through a simple and professional process."
+        accent="green"
+        action={<Button href="#sell" variant="secondary">Start listing today</Button>}
       >
-        See How It Works →
-      </a>
-      <h3 className="text-2xl font-semibold text-[#14213D]">Take the Seller Survey</h3>
-      <ul className="mt-6 space-y-3 text-sm text-slate-700">
-        <li className="flex items-start gap-3">
-          <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#5d745e]" />
-          <span>Get paid on delivery confirmation</span>
-        </li>
-        <li className="flex items-start gap-3">
-          <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#5d745e]" />
-          <span>No more payment disputes</span>
-        </li>
-        <li className="flex items-start gap-3">
-          <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#5d745e]" />
-          <span>Sell to buyers who trust you</span>
-        </li>
-      </ul>
-      <div className="mt-8">
-        <Button onClick={() => scrollTo("#survey")} variant="secondary">
-          Take the Seller Survey
-        </Button>
-      </div>
+        <ul className="mt-6 space-y-3 text-sm text-slate-100/95">
+          {sellerBenefits.map((item) => (
+            <li key={item} className="flex items-start gap-3">
+              <span className="mt-1 h-2.5 w-2.5 rounded-full bg-[#5d745e]" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </InfoCard>
     </div>
   );
 
@@ -100,13 +86,13 @@ export default function BuyerSellerCard({ view }: BuyerSellerCardProps) {
       <div className={`grid gap-8 ${view === "overview" ? "lg:grid-cols-2" : "lg:grid-cols-1 max-w-2xl mx-auto"}`}>
         {view === "overview" ? (
           <>
-            {buyerContent}
-            {sellerContent}
+            {buyerCard}
+            {sellerCard}
           </>
         ) : view === "buyer" ? (
-          buyerContent
+          buyerCard
         ) : (
-          sellerContent
+          sellerCard
         )}
       </div>
     </section>
