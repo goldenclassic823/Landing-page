@@ -35,46 +35,51 @@ const scrollTo = (id: string) => {
 };
 
 export default function Hero({ view }: HeroProps) {
-  const buttons = {
-    overview: (
-      <>
-        <Button onClick={() => scrollTo("#survey")} variant="accent">
-          Survey
-        </Button>
-        <Button onClick={() => scrollTo("#how")} variant="primary">
-          How NorthLane works
-        </Button>
-      </>
-    ),
-    buyer: (
-      <>
-        <Button onClick={() => scrollTo("#survey")} variant="accent">
-          Take the Survey — 2 mins
-        </Button>
-        <a
-          href="#how"
-          onClick={(e) => { e.preventDefault(); scrollTo("#how"); }}
-          className="text-sm font-medium text-white/80 underline underline-offset-4 transition hover:text-white"
-        >
-          See How It Works →
-        </a>
-      </>
-    ),
-    seller: (
-      <>
-        <Button onClick={() => scrollTo("#survey")} variant="secondary">
-          Take the Seller Survey
-        </Button>
-        <a
-          href="#how"
-          onClick={(e) => { e.preventDefault(); scrollTo("#how"); }}
-          className="text-sm font-medium text-white/80 underline underline-offset-4 transition hover:text-white"
-        >
-          See How It Works →
-        </a>
-      </>
-    ),
-  };
+  const overviewButtons = (
+    <>
+      <Button onClick={() => scrollTo("#survey")} variant="accent">
+        Survey
+      </Button>
+      <Button onClick={() => scrollTo("#how")} variant="primary">
+        How NorthLane works
+      </Button>
+    </>
+  );
+
+  const buyerButtons = (
+    <>
+      <Button onClick={() => scrollTo("#survey")} variant="accent">
+        Take the Survey — 2 mins
+      </Button>
+      <a
+        href="#how"
+        onClick={(e) => { e.preventDefault(); scrollTo("#how"); }}
+        className="text-sm font-medium text-white/80 underline underline-offset-4 transition hover:text-white"
+      >
+        See How It Works →
+      </a>
+    </>
+  );
+
+  const sellerButtons = (
+    <>
+      <Button onClick={() => scrollTo("#survey")} variant="secondary">
+        Take the Seller Survey
+      </Button>
+      <a
+        href="#how"
+        onClick={(e) => { e.preventDefault(); scrollTo("#how"); }}
+        className="text-sm font-medium text-white/80 underline underline-offset-4 transition hover:text-white"
+      >
+        See How It Works →
+      </a>
+    </>
+  );
+
+  const buttons =
+    view === "overview" ? overviewButtons
+    : view === "buyer" ? buyerButtons
+    : sellerButtons;
 
   return (
     <section className="relative px-6 py-20 md:py-28 lg:py-32">
@@ -95,8 +100,8 @@ export default function Hero({ view }: HeroProps) {
                 connections and smooth transactions from start to finish.
               </p>
 
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                {buttons[view]}
+              <div className="mt-8 flex flex-wrap gap-4">
+                {buttons}
               </div>
 
               <div className="mt-10 flex flex-wrap gap-4">
