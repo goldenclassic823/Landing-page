@@ -54,11 +54,9 @@ export default function Hero() {
 
               <div className="mt-8 flex flex-wrap gap-4">
                 <Button onClick={() => scrollTo("#how")} variant="primary">
-                  How NorthLane works
+                  Take the seller survey
                 </Button>
-                <Button onClick={() => scrollTo("#survey")} variant="accent">
-                  Survey
-                </Button>
+                <a href="/how it work">How it work</a>
               </div>
 
               <div className="mt-10 flex flex-wrap gap-4">
