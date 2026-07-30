@@ -4,6 +4,7 @@ type ButtonProps = {
   children: React.ReactNode;
   variant?: "primary" | "secondary" | "accent";
   href?: string;
+  onClick?: () => void;
   className?: string;
 };
 
@@ -11,6 +12,7 @@ export default function Button({
   children,
   variant = "primary",
   href,
+  onClick,
   className = "",
 }: ButtonProps) {
   const baseClass =
@@ -29,6 +31,7 @@ export default function Button({
       <a
         href={href}
         onClick={(event) => {
+          if (onClick) onClick();
           const target = document.querySelector(href);
           if (target && href.startsWith("#")) {
             event.preventDefault();
@@ -42,5 +45,9 @@ export default function Button({
     );
   }
 
-  return <button className={classes}>{children}</button>;
+  return (
+    <button onClick={onClick} className={classes}>
+      {children}
+    </button>
+  );
 }

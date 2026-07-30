@@ -1,62 +1,31 @@
 "use client";
 
 import { useState } from "react";
+import type { ViewMode } from "../app/page";
 
-const faqs = [
-  {
-    question: "How do I receive my product after purchasing?",
-    answer:
-      "Once you place an order, the seller ships the item directly to the address you provide. You will receive tracking information so you can follow the delivery every step of the way.",
-  },
-  {
-    question: "Does the platform handle shipping?",
-    answer:
-      "Shipping is arranged between the buyer and seller. We provide guidelines and recommend tracked shipping to ensure both parties have visibility on delivery status.",
-  },
-  {
-    question: "Can I return an item if I am not satisfied?",
-    answer:
-      "Returns are handled between the buyer and seller based on the listing terms. If you cannot reach an agreement, our support team can step in to help find a fair resolution.",
-  },
-  {
-    question: "How does the platform protect my payment?",
-    answer:
-      "Your payment is held securely on the platform until you confirm that you have received the item and are satisfied. This protects both buyers and sellers throughout the exchange.",
-  },
-  {
-    question: "How do I start selling on Marketstand?",
-    answer:
-      "Create a listing in minutes with photos, a description, and your price. Once approved, your item will be visible to buyers on the platform.",
-  },
-  {
-    question: "How do I know the product quality before buying?",
-    answer:
-      "Each listing includes photos, a detailed description, and the seller's reputation score. You can also message the seller directly through the platform if you have specific questions.",
-  },
-  {
-    question: "Is there a fee for using the platform?",
-    answer:
-      "We charge a small transaction fee on completed sales. Listing items and browsing are completely free for everyone.",
-  },
-  {
-    question: "How long does it take to receive my payment as a seller?",
-    answer:
-      "Payments are released to your account within 1–2 business days after the buyer confirms receipt and satisfaction with the product.",
-  },
-  {
-    question: "Is my personal information safe on the platform?",
-    answer:
-      "Yes. Your personal information is encrypted and never shared with third parties. We follow strict security practices to keep your data safe.",
-  },
-  {
-    question: "What happens if there is an issue with my order?",
-    answer:
-      "Our support team mediates disputes and ensures a fair resolution. Both parties can submit evidence and we review each case thoroughly before making a decision.",
-  },
+const allFaqs = [
+  { role: "buyer", question: "How do I receive my product after purchasing?", answer: "Once you place an order, the seller ships the item directly to the address you provide. You will receive tracking information so you can follow the delivery every step of the way." },
+  { role: "both", question: "Does the platform handle shipping?", answer: "Shipping is arranged between the buyer and seller. We provide guidelines and recommend tracked shipping to ensure both parties have visibility on delivery status." },
+  { role: "buyer", question: "Can I return an item if I am not satisfied?", answer: "Returns are handled between the buyer and seller based on the listing terms. If you cannot reach an agreement, our support team can step in to help find a fair resolution." },
+  { role: "both", question: "How does the platform protect my payment?", answer: "Your payment is held securely on the platform until you confirm that you have received the item and are satisfied. This protects both buyers and sellers throughout the exchange." },
+  { role: "seller", question: "How do I start selling on Marketstand?", answer: "Create a listing in minutes with photos, a description, and your price. Once approved, your item will be visible to buyers on the platform." },
+  { role: "buyer", question: "How do I know the product quality before buying?", answer: "Each listing includes photos, a detailed description, and the seller's reputation score. You can also message the seller directly through the platform if you have specific questions." },
+  { role: "both", question: "Is there a fee for using the platform?", answer: "We charge a small transaction fee on completed sales. Listing items and browsing are completely free for everyone." },
+  { role: "seller", question: "How long does it take to receive my payment as a seller?", answer: "Payments are released to your account within 1–2 business days after the buyer confirms receipt and satisfaction with the product." },
+  { role: "both", question: "Is my personal information safe on the platform?", answer: "Yes. Your personal information is encrypted and never shared with third parties. We follow strict security practices to keep your data safe." },
+  { role: "both", question: "What happens if there is an issue with my order?", answer: "Our support team mediates disputes and ensures a fair resolution. Both parties can submit evidence and we review each case thoroughly before making a decision." },
 ];
 
-export default function FAQ() {
+type FAQProps = {
+  view: ViewMode;
+};
+
+export default function FAQ({ view }: FAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const faqs = view === "overview"
+    ? allFaqs
+    : allFaqs.filter((f) => f.role === view || f.role === "both");
 
   const toggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -69,11 +38,14 @@ export default function FAQ() {
           Questions?
         </p>
         <h2 className="mt-3 text-3xl font-semibold tracking-[-0.02em] text-white sm:text-4xl">
-          Frequently asked questions
+          {view === "overview" ? "Frequently asked questions" : view === "buyer" ? "Questions from buyers" : "Questions from sellers"}
         </h2>
         <p className="mt-3 text-lg leading-8 text-slate-100/80">
-          Everything you need to know about buying, selling, and staying secure
-          on Marketstand.
+          {view === "overview"
+            ? "Everything you need to know about buying, selling, and staying secure on Marketstand."
+            : view === "buyer"
+              ? "Common questions buyers ask about shopping on Marketstand."
+              : "Common questions sellers ask about listing and selling on Marketstand."}
         </p>
       </div>
 
