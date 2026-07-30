@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 
 const totalQuestions = 8;
 
@@ -26,6 +26,9 @@ export default function Survey() {
   const [selections, setSelections] = useState<Record<number, string[]>>({});
   const [otherText, setOtherText] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [direction, setDirection] = useState<"left" | "right">("left");
+  const [sliding, setSliding] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const progress = Math.round(((current + 1) / totalQuestions) * 100);
 
@@ -41,6 +44,30 @@ export default function Survey() {
 
   const isSelected = (option: string) =>
     (selections[current] || []).includes(option);
+
+  const advance = useCallback(() => {
+    if (sliding) return;
+    if (current < questions.length - 1) {
+      setDirection("left");
+      setSliding(true);
+      setTimeout(() => {
+        setCurrent((prev) => prev + 1);
+        setSliding(false);
+      }, 250);
+    } else {
+      setSubmitted(true);
+    }
+  }, [current, sliding]);
+
+  const goBack = useCallback(() => {
+    if (sliding || current === 0) return;
+    setDirection("right");
+    setSliding(true);
+    setTimeout(() => {
+      setCurrent((prev) => prev - 1);
+      setSliding(false);
+    }, 250);
+  }, [current, sliding]);
 
   const q = questions[current];
 
@@ -59,6 +86,8 @@ export default function Survey() {
       </section>
     );
   }
+
+  const selectedItems = selections[current] || [];
 
   return (
     <section id="survey" className="mx-auto max-w-3xl px-6 py-20">
@@ -98,60 +127,91 @@ export default function Survey() {
         </div>
       </div>
 
-      <div>
-        <p className="text-lg font-medium text-white">{q.question}</p>
-        {q.instruction && (
-          <p className="mt-1 text-sm text-slate-100/60">{q.instruction}</p>
-        )}
-
-        <div className="mt-6 space-y-3">
-          {q.options.map((option) => {
-            const selected = isSelected(option);
-            return (
+      {selectedItems.length > 0 && (
+        <div className="mb-4 flex flex-wrap gap-2">
+          {selectedItems.map((item) => (
+            <span
+              key={item}
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#b68134]/15 px-3 py-1 text-xs font-medium text-[#E8A33D]"
+            >
+              {item}
               <button
                 type="button"
-                key={option}
-                onClick={() => toggle(option)}
-                className={`flex w-full items-center gap-4 rounded-2xl border px-5 py-4 text-left text-sm font-medium transition duration-200 ${
-                  selected
-                    ? "border-[#b68134] bg-[#b68134]/10 text-[#E8A33D]"
-                    : "border-white/10 text-slate-100/80 hover:border-white/25 hover:text-white"
-                }`}
+                onClick={() => toggle(item)}
+                className="ml-0.5 leading-none hover:text-white"
               >
-                <span
-                  className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition ${
+                &times;
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+
+      <div className="relative overflow-hidden">
+        <div
+          ref={containerRef}
+          className={`transition-all duration-250 ${
+            sliding
+              ? direction === "left"
+                ? "-translate-x-8 opacity-0"
+                : "translate-x-8 opacity-0"
+              : "translate-x-0 opacity-100"
+          }`}
+        >
+          <p className="text-lg font-medium text-white">{q.question}</p>
+          {q.instruction && (
+            <p className="mt-1 text-sm text-slate-100/60">{q.instruction}</p>
+          )}
+
+          <div className="mt-6 space-y-3">
+            {q.options.map((option) => {
+              const selected = isSelected(option);
+              return (
+                <button
+                  type="button"
+                  key={option}
+                  onClick={() => toggle(option)}
+                  className={`flex w-full items-center gap-4 rounded-2xl border px-5 py-4 text-left text-sm font-medium transition duration-200 ${
                     selected
-                      ? "border-[#b68134] bg-[#b68134] text-white"
-                      : "border-white/20"
+                      ? "border-[#b68134] bg-[#b68134]/10 text-[#E8A33D]"
+                      : "border-white/10 text-slate-100/80 hover:border-white/25 hover:text-white"
                   }`}
                 >
-                  {selected && (
-                    <svg className="h-3 w-3" fill="none" viewBox="0 0 12 12">
-                      <path stroke="currentColor" strokeWidth="2" d="M2 6l3 3 5-5" />
-                    </svg>
-                  )}
-                </span>
-                {option}
-              </button>
-            );
-          })}
-        </div>
+                  <span
+                    className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition ${
+                      selected
+                        ? "border-[#b68134] bg-[#b68134] text-white"
+                        : "border-white/20"
+                    }`}
+                  >
+                    {selected && (
+                      <svg className="h-3 w-3" fill="none" viewBox="0 0 12 12">
+                        <path stroke="currentColor" strokeWidth="2" d="M2 6l3 3 5-5" />
+                      </svg>
+                    )}
+                  </span>
+                  {option}
+                </button>
+              );
+            })}
+          </div>
 
-        {isSelected("Other") && (
-          <input
-            type="text"
-            value={otherText}
-            onChange={(e) => setOtherText(e.target.value)}
-            placeholder="Please specify..."
-            className="mt-3 w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-white placeholder-slate-100/40 outline-none transition focus:border-[#b68134]/50"
-          />
-        )}
+          {isSelected("Other") && (
+            <input
+              type="text"
+              value={otherText}
+              onChange={(e) => setOtherText(e.target.value)}
+              placeholder="Please specify..."
+              className="mt-3 w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-white placeholder-slate-100/40 outline-none transition focus:border-[#b68134]/50"
+            />
+          )}
+        </div>
       </div>
 
-      <div className="mt-10 flex items-center justify-between">
+      <div className="mt-8 flex items-center justify-between">
         <button
           type="button"
-          onClick={() => setCurrent((prev) => Math.max(0, prev - 1))}
+          onClick={goBack}
           className={`rounded-full border px-6 py-3 text-sm font-semibold transition ${
             current === 0
               ? "border-white/5 text-slate-100/30"
@@ -164,13 +224,7 @@ export default function Survey() {
 
         <button
           type="button"
-          onClick={() => {
-            if (current < questions.length - 1) {
-              setCurrent((prev) => prev + 1);
-            } else {
-              setSubmitted(true);
-            }
-          }}
+          onClick={advance}
           className="rounded-full bg-[#b68134] px-8 py-3 text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-[#a5722e]"
         >
           {current < questions.length - 1 ? "Next" : "Submit"}
