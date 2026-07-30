@@ -25,6 +25,7 @@ const galleryImages = [
 
 type HeroProps = {
   view: ViewMode;
+  onViewChange: (view: ViewMode) => void;
 };
 
 const scrollTo = (id: string) => {
@@ -34,27 +35,27 @@ const scrollTo = (id: string) => {
   }
 };
 
-export default function Hero({ view }: HeroProps) {
+export default function Hero({ view, onViewChange }: HeroProps) {
   const overviewButtons = (
     <>
-      <Button onClick={() => scrollTo("#survey")} variant="accent">
-        Survey
+      <Button onClick={() => onViewChange("seller")} variant="secondary">
+        Start selling
       </Button>
-      <Button onClick={() => scrollTo("#how")} variant="primary">
-        How NorthLane works
+      <Button onClick={() => onViewChange("buyer")} variant="primary">
+        Explore listings
       </Button>
     </>
   );
 
   const buyerButtons = (
     <>
-      <Button onClick={() => scrollTo("#survey")} variant="accent">
+      <Button onClick={() => scrollTo("#survey")} variant="accent" className="whitespace-nowrap">
         Take the Survey — 2 mins
       </Button>
       <a
         href="#how"
         onClick={(e) => { e.preventDefault(); scrollTo("#how"); }}
-        className="text-sm font-medium text-white/80 underline underline-offset-4 transition hover:text-white"
+        className="inline-flex items-center whitespace-nowrap text-sm font-medium text-white/80 underline underline-offset-4 transition hover:text-white"
       >
         See How It Works →
       </a>
@@ -63,13 +64,13 @@ export default function Hero({ view }: HeroProps) {
 
   const sellerButtons = (
     <>
-      <Button onClick={() => scrollTo("#survey")} variant="secondary">
+      <Button onClick={() => scrollTo("#survey")} variant="secondary" className="whitespace-nowrap">
         Take the Seller Survey
       </Button>
       <a
         href="#how"
         onClick={(e) => { e.preventDefault(); scrollTo("#how"); }}
-        className="text-sm font-medium text-white/80 underline underline-offset-4 transition hover:text-white"
+        className="inline-flex items-center whitespace-nowrap text-sm font-medium text-white/80 underline underline-offset-4 transition hover:text-white"
       >
         See How It Works →
       </a>
