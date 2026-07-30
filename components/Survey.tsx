@@ -44,6 +44,19 @@ export default function Survey() {
 
   return (
     <section id="survey" className="mx-auto max-w-3xl px-6 py-20">
+      <div className="mb-2">
+        <a
+          href="#how"
+          onClick={(e) => {
+            e.preventDefault();
+            const target = document.querySelector("#how");
+            if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }}
+          className="text-sm text-slate-100/60 underline underline-offset-4 transition hover:text-white/90"
+        >
+          How NorthLane works
+        </a>
+      </div>
       <div className="mb-10 text-center">
         <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-200">
           We want to hear from you

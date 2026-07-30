@@ -1,5 +1,6 @@
+"use client";
+
 import Image from "next/image";
-import type { ViewMode } from "../app/page";
 import Button from "./ui/Button";
 
 const highlights = [
@@ -23,11 +24,6 @@ const galleryImages = [
   },
 ];
 
-type HeroProps = {
-  view: ViewMode;
-  onViewChange: (view: ViewMode) => void;
-};
-
 const scrollTo = (id: string) => {
   const target = document.querySelector(id);
   if (target) {
@@ -35,65 +31,7 @@ const scrollTo = (id: string) => {
   }
 };
 
-export default function Hero({ view, onViewChange }: HeroProps) {
-  const content = {
-    overview: {
-      title: "A trusted place to buy, sell, and complete payments online.",
-      desc: "Buy, sell, and pay securely with a marketplace built for trusted connections and smooth transactions from start to finish.",
-      buttons: (
-        <>
-          <Button onClick={() => scrollTo("#how")} variant="primary">
-            How it works
-          </Button>
-          <Button onClick={() => onViewChange("seller")} variant="secondary">
-            Start selling
-          </Button>
-          <Button onClick={() => onViewChange("buyer")} variant="secondary">
-            Explore listings
-          </Button>
-          <Button onClick={() => scrollTo("#survey")} variant="accent">
-            Survey
-          </Button>
-        </>
-      ),
-    },
-    buyer: {
-      title: "Find what you love, pay with total peace of mind.",
-      desc: "Browse trusted listings, compare details, and complete your purchase securely — every step is built for your confidence.",
-      buttons: (
-        <>
-          <Button onClick={() => scrollTo("#how")} variant="primary">
-            How it works
-          </Button>
-          <Button onClick={() => onViewChange("buyer")} variant="secondary">
-            Explore listings
-          </Button>
-          <Button onClick={() => scrollTo("#survey")} variant="accent">
-            Survey
-          </Button>
-        </>
-      ),
-    },
-    seller: {
-      title: "Turn your items into earnings, effortlessly.",
-      desc: "List in minutes, connect with buyers who are ready to purchase, and receive payments securely through our platform.",
-      buttons: (
-        <>
-          <Button onClick={() => scrollTo("#how")} variant="primary">
-            How it works
-          </Button>
-          <Button onClick={() => onViewChange("seller")} variant="secondary">
-            Start selling
-          </Button>
-          <Button onClick={() => scrollTo("#survey")} variant="accent">
-            Survey
-          </Button>
-        </>
-      ),
-    },
-  };
-
-  const { title, desc, buttons } = content[view];
+export default function Hero() {
 
   return (
     <section className="relative px-6 py-20 md:py-28 lg:py-32">
@@ -106,15 +44,21 @@ export default function Hero({ view, onViewChange }: HeroProps) {
           <div className="grid items-center gap-14 lg:grid-cols-[1.02fr_0.98fr]">
             <div>
               <h1 className="mt-0 text-4xl font-semibold leading-[1.05] tracking-[-0.03em] text-white/90 sm:text-5xl lg:text-6xl">
-                {title}
+                A trusted place to buy, sell, and complete payments online.
               </h1>
 
               <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-100/80">
-                {desc}
+                Buy, sell, and pay securely with a marketplace built for trusted
+                connections and smooth transactions from start to finish.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-4">
-                {buttons}
+                <Button onClick={() => scrollTo("#how")} variant="primary">
+                  How NorthLane works
+                </Button>
+                <Button onClick={() => scrollTo("#survey")} variant="accent">
+                  Survey
+                </Button>
               </div>
 
               <div className="mt-10 flex flex-wrap gap-4">

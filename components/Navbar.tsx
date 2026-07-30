@@ -28,22 +28,6 @@ export default function Navbar({ view, onViewChange }: NavbarProps) {
         <div className="hidden items-center gap-3 text-sm font-medium md:flex">
           <button
             onClick={() => {
-              onViewChange("overview");
-              const target = document.querySelector("#how");
-              if (target) {
-                target.scrollIntoView({ behavior: "smooth", block: "start" });
-              }
-            }}
-            className={`rounded-full px-4 py-2 transition duration-200 ${
-              isActive("overview")
-                ? "bg-[#f3eadf] text-[#4C7A5E]"
-                : "text-[#1f2a37]/80 hover:bg-[#f3eadf] hover:text-[#4C7A5E]"
-            }`}
-          >
-            Overview
-          </button>
-          <button
-            onClick={() => {
               onViewChange("seller");
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
@@ -80,7 +64,7 @@ export default function Navbar({ view, onViewChange }: NavbarProps) {
           }}
           className="rounded-full border border-[#1f2a37]/10 bg-white px-5 py-2.5 text-sm font-semibold text-[#1f2a37] shadow-sm transition duration-200 hover:-translate-y-0.5 hover:bg-[#f7f2e8]"
         >
-          Get started
+          Join waitlist
         </button>
       </div>
     </nav>
