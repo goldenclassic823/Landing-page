@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import BuyerSellerCard from "../components/BuyerSellerCard";
 import FAQ from "../components/FAQ";
+import Survey from "../components/Survey";
 import Button from "../components/ui/Button";
 
 export type ViewMode = "overview" | "buyer" | "seller";
@@ -49,6 +50,8 @@ export default function Home() {
         <Hero view={view} onViewChange={setView} />
         <BuyerSellerCard view={view} />
         <FAQ view={view} />
+
+        <Survey />
 
         <section className="mx-auto max-w-7xl px-6 pb-24">
           <div className="rounded-4xl border border-[#14213D]/10 bg-[#14213D] p-8 text-white shadow-[0_20px_70px_-24px_rgba(20,33,61,0.8)] md:flex md:items-center md:justify-between md:p-10">

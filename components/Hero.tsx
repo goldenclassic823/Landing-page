@@ -28,6 +28,13 @@ type HeroProps = {
   onViewChange: (view: ViewMode) => void;
 };
 
+const scrollTo = (id: string) => {
+  const target = document.querySelector(id);
+  if (target) {
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+};
+
 export default function Hero({ view, onViewChange }: HeroProps) {
   const content = {
     overview: {
@@ -35,11 +42,17 @@ export default function Hero({ view, onViewChange }: HeroProps) {
       desc: "Buy, sell, and pay securely with a marketplace built for trusted connections and smooth transactions from start to finish.",
       buttons: (
         <>
+          <Button onClick={() => scrollTo("#how")} variant="primary">
+            How it works
+          </Button>
           <Button onClick={() => onViewChange("seller")} variant="secondary">
             Start selling
           </Button>
-          <Button onClick={() => onViewChange("buyer")} variant="primary">
+          <Button onClick={() => onViewChange("buyer")} variant="secondary">
             Explore listings
+          </Button>
+          <Button onClick={() => scrollTo("#survey")} variant="accent">
+            Survey
           </Button>
         </>
       ),
@@ -49,11 +62,14 @@ export default function Hero({ view, onViewChange }: HeroProps) {
       desc: "Browse trusted listings, compare details, and complete your purchase securely — every step is built for your confidence.",
       buttons: (
         <>
-          <Button onClick={() => onViewChange("buyer")} variant="primary">
+          <Button onClick={() => scrollTo("#how")} variant="primary">
+            How it works
+          </Button>
+          <Button onClick={() => onViewChange("buyer")} variant="secondary">
             Explore listings
           </Button>
-          <Button onClick={() => onViewChange("overview")} variant="secondary">
-            Learn how it works
+          <Button onClick={() => scrollTo("#survey")} variant="accent">
+            Survey
           </Button>
         </>
       ),
@@ -63,11 +79,14 @@ export default function Hero({ view, onViewChange }: HeroProps) {
       desc: "List in minutes, connect with buyers who are ready to purchase, and receive payments securely through our platform.",
       buttons: (
         <>
+          <Button onClick={() => scrollTo("#how")} variant="primary">
+            How it works
+          </Button>
           <Button onClick={() => onViewChange("seller")} variant="secondary">
             Start selling
           </Button>
-          <Button onClick={() => onViewChange("overview")} variant="primary">
-            Learn how it works
+          <Button onClick={() => scrollTo("#survey")} variant="accent">
+            Survey
           </Button>
         </>
       ),
