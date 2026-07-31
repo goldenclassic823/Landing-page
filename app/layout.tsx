@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Marketstand | Buy, Sell, and Transact Securely",
+  title: "NorthLane | Buy, Sell, and Transact Securely",
   description:
-    "Marketstand is a modern middleman marketplace where buyers and sellers connect, negotiate, and complete transactions with confidence.",
+    "NorthLane is a modern middleman marketplace where buyers and sellers connect, negotiate, and complete transactions with confidence.",
 };
 
 export default function RootLayout({
