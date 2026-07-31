@@ -23,9 +23,7 @@ type FAQProps = {
 export default function FAQ({ view }: FAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const faqs = view === "overview"
-    ? allFaqs
-    : allFaqs.filter((f) => f.role === view || f.role === "both");
+  const faqs = allFaqs.filter((f) => f.role === view || f.role === "both");
 
   const toggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -34,18 +32,13 @@ export default function FAQ({ view }: FAQProps) {
   return (
     <section className="mx-auto max-w-3xl px-6 py-20">
       <div className="mb-10 text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-200">
-          Questions?
-        </p>
-        <h2 className="mt-3 text-3xl font-semibold tracking-[-0.02em] text-white sm:text-4xl">
-          {view === "overview" ? "Frequently asked questions" : view === "buyer" ? "Questions from buyers" : "Questions from sellers"}
+        <h2 className="text-2xl font-bold tracking-[-0.02em] text-heading sm:text-3xl">
+          Frequently Asked Questions
         </h2>
-        <p className="mt-3 text-lg leading-8 text-slate-100/80">
-          {view === "overview"
-            ? "Everything you need to know about buying, selling, and staying secure on Marketstand."
-            : view === "buyer"
-              ? "Common questions buyers ask about shopping on Marketstand."
-              : "Common questions sellers ask about listing and selling on Marketstand."}
+        <p className="mt-3 text-base font-normal leading-7 text-muted">
+          {view === "buyer"
+            ? "Any questions about shopping on NorthLane? We've got answers for you."
+            : "Any questions about listing and selling on NorthLane? We're here to answer them."}
         </p>
       </div>
 
@@ -53,19 +46,19 @@ export default function FAQ({ view }: FAQProps) {
         {faqs.map((faq, index) => (
           <div
             key={index}
-            className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm"
+            className="rounded-2xl border border-card bg-card shadow-sm"
           >
             <button
               onClick={() => toggle(index)}
-              className="flex w-full items-center justify-between px-6 py-5 text-left text-base font-medium text-white/90 transition hover:text-white"
+              className="flex w-full cursor-pointer items-center justify-between px-6 py-5 text-left text-base font-medium text-heading/85 transition hover:text-heading"
             >
               <span>{faq.question}</span>
               <span
-                className={`ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/20 text-lg transition duration-200 ${
-                  openIndex === index
-                    ? "rotate-45 bg-[#b68134] text-white"
-                    : "text-white/60"
-                }`}
+                className={`ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-lg transition duration-200 ${
+                    openIndex === index
+                      ? `rotate-45 ${view === "seller" ? "bg-seller border-seller" : "bg-buyer border-buyer"} text-white`
+                      : `${view === "seller" ? "border-seller/30 text-seller/60" : "border-buyer/30 text-buyer/60"}`
+                  }`}
               >
                 +
               </span>
@@ -75,7 +68,7 @@ export default function FAQ({ view }: FAQProps) {
                 openIndex === index ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
               }`}
             >
-              <p className="border-t border-white/10 px-6 py-5 text-sm leading-7 text-slate-100/80">
+              <p className="border-t border-gray-200 px-6 py-5 text-sm leading-7 text-muted dark:border-gray-600">
                 {faq.answer}
               </p>
             </div>

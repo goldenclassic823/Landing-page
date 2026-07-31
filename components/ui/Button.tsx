@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 
 type ButtonProps = {
   children: React.ReactNode;
@@ -15,16 +16,20 @@ export default function Button({
   onClick,
   className = "",
 }: ButtonProps) {
-  const baseClass =
-    "inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold shadow-sm transition duration-200 hover:-translate-y-0.5";
+  const [hovered, setHovered] = useState(false);
 
-  const variants = {
-    primary: "bg-[#1f2a37] text-white hover:bg-[#283647]",
-    secondary: "bg-[#5d745e] text-white hover:bg-[#50624f]",
-    accent: "bg-[#b68134] text-[#1f2a37] hover:bg-[#a5722e]",
+  const baseClass =
+    "inline-flex cursor-pointer items-center justify-center rounded-full px-6 py-3 text-sm font-semibold shadow-sm transition duration-200 hover:-translate-y-0.5";
+
+  const variantStyles = {
+    primary: { bg: "#44403c", hover: "#55514d" },
+    secondary: { bg: "#0B6E70", hover: "#0A5F61" },
+    accent: { bg: "#C4842D", hover: "#AD7530" },
   };
 
-  const classes = `${baseClass} ${variants[variant]} ${className}`.trim();
+  const c = variantStyles[variant];
+  const classes = `${baseClass} ${className}`.trim();
+  const btnStyle = { backgroundColor: hovered ? c.hover : c.bg, color: "white" };
 
   if (href) {
     return (
@@ -39,6 +44,9 @@ export default function Button({
           }
         }}
         className={classes}
+        style={btnStyle}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
       >
         {children}
       </a>
@@ -46,7 +54,13 @@ export default function Button({
   }
 
   return (
-    <button onClick={onClick} className={classes}>
+    <button
+      onClick={onClick}
+      className={classes}
+      style={btnStyle}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       {children}
     </button>
   );

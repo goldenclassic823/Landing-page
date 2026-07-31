@@ -1,17 +1,39 @@
 import type { ViewMode } from "../app/page";
-import Button from "./ui/Button";
-import InfoCard from "./ui/InfoCard";
 
-const buyerBenefits = [
-  "Discover curated listings tailored to your needs",
-  "Pay securely within the platform for a trusted checkout",
-  "Complete purchases with guided support and clear confirmation",
+const buyerSteps = [
+  {
+    icon: "💸",
+    title: "Send Payment to NorthLane",
+    desc: "Instead of paying the seller directly, send your money to NorthLane. We hold it safely until you're happy.",
+  },
+  {
+    icon: "📦",
+    title: "Seller Ships Your Order",
+    desc: "The seller can see your payment is secured and ready for release. They ship your item with confidence.",
+  },
+  {
+    icon: "✅",
+    title: "Confirm and Release",
+    desc: "Received your item? Confirm on the app and we instantly release the payment to the seller. Not satisfied? Open a dispute.",
+  },
 ];
 
-const sellerBenefits = [
-  "Post items in minutes with a polished listing",
-  "Reach buyers who are ready to purchase",
-  "Receive payments safely and manage transactions with confidence",
+const sellerSteps = [
+  {
+    icon: "🔗",
+    title: "Share Your NorthLane Link",
+    desc: "Send buyers your NorthLane payment link instead of your bank account. They pay NorthLane — not you directly.",
+  },
+  {
+    icon: "📦",
+    title: "Ship When Payment is Secured",
+    desc: "You get notified the moment the buyer's payment is locked in. Ship your item knowing you WILL get paid.",
+  },
+  {
+    icon: "💰",
+    title: "Get Paid Automatically",
+    desc: "Buyer confirms delivery → money hits your account instantly. No waiting. No chasing. No excuses.",
+  },
 ];
 
 type BuyerSellerCardProps = {
@@ -19,81 +41,39 @@ type BuyerSellerCardProps = {
 };
 
 export default function BuyerSellerCard({ view }: BuyerSellerCardProps) {
-  const buyerCard = (
-    <div id="buy">
-      <InfoCard
-        eyebrow="For buyers"
-        title="Buy with trust and ease"
-        description="Browse refined listings, compare details, and complete payments on the platform with a secure and reassuring buying journey."
-        accent="gold"
-        action={<Button href="#buy" variant="accent">Browse available products</Button>}
-      >
-        <ul className="mt-6 space-y-3 text-sm text-slate-100/95">
-          {buyerBenefits.map((item) => (
-            <li key={item} className="flex items-start gap-3">
-              <span className="mt-1 h-2.5 w-2.5 rounded-full bg-[#b68134]" />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </InfoCard>
-    </div>
-  );
-
-  const sellerCard = (
-    <div id="sell">
-      <InfoCard
-        eyebrow="For sellers"
-        title="Sell with confidence"
-        description="Share what you are selling, reach interested buyers, and receive payment safely through a simple and professional process."
-        accent="green"
-        action={<Button href="#sell" variant="secondary">Start listing today</Button>}
-      >
-        <ul className="mt-6 space-y-3 text-sm text-slate-100/95">
-          {sellerBenefits.map((item) => (
-            <li key={item} className="flex items-start gap-3">
-              <span className="mt-1 h-2.5 w-2.5 rounded-full bg-[#5d745e]" />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </InfoCard>
-    </div>
-  );
+  const steps = view === "buyer" ? buyerSteps : sellerSteps;
+  const accent = view === "seller" ? "seller" : "buyer";
 
   return (
     <section id="how" className="mx-auto max-w-7xl px-6 py-8 pb-20">
-      <div className="mb-10 max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-200">
-          {view === "overview" ? "Built for modern commerce" : view === "buyer" ? "Made for buyers" : "Built for sellers"}
-        </p>
-        <h2 className="mt-3 text-3xl font-semibold tracking-[-0.02em] text-white sm:text-4xl">
-          {view === "overview"
-            ? "Everything you need to buy, sell, and pay in one place"
-            : view === "buyer"
-              ? "A buying experience you can trust"
-              : "A selling experience built for you"}
+      <div className="mb-10 mx-auto max-w-3xl text-center">
+        <h2 className="mt-3 text-3xl font-semibold tracking-[-0.02em] text-heading sm:text-4xl">
+          {view === "buyer"
+            ? "How NorthLane Protects You"
+            : "How NorthLane Works for Sellers"}
         </h2>
-        <p className="mt-3 text-lg leading-8 text-slate-100/95">
-          {view === "overview"
-            ? "Every step is designed to feel simple, secure, and trustworthy from discovery to payment."
-            : view === "buyer"
-              ? "From discovery to delivery, every step is designed with your peace of mind in mind."
-              : "From listing to payout, every step is designed to help you sell with confidence."}
+        <p className="mt-3 text-lg leading-8 text-muted">
+          {view === "buyer"
+            ? "Three simple steps between you and a safe purchase"
+            : "Three simple steps to guaranteed payment on every sale."}
         </p>
       </div>
 
-      <div className={`grid gap-8 ${view === "overview" ? "lg:grid-cols-2" : "lg:grid-cols-1 max-w-2xl mx-auto"}`}>
-        {view === "overview" ? (
-          <>
-            {buyerCard}
-            {sellerCard}
-          </>
-        ) : view === "buyer" ? (
-          buyerCard
-        ) : (
-          sellerCard
-        )}
+      <div className="flex flex-col gap-8 lg:flex-row lg:items-stretch lg:gap-12">
+        {steps.map((step, i) => (
+          <div key={step.title} className="relative flex flex-1">
+            <div className={`w-full rounded-[30px] border border-${accent}/20 bg-linear-to-br from-${accent}-light to-white dark:to-[#292524] p-8 shadow-[0_18px_40px_-24px_rgba(20,33,61,0.2)] transition-all duration-300 hover:scale-[1.03]`}>
+              <p className="text-4xl">{step.icon}</p>
+              <h3 className="mt-4 text-xl font-semibold text-heading">{step.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-muted">{step.desc}</p>
+            </div>
+            {i < steps.length - 1 && (
+              <span className={`absolute -right-6 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-lg text-${accent} shadow-lg lg:inline-flex`} style={{ background: `linear-gradient(135deg, var(--${accent}-light), var(--card, #fff))` }}>
+                →
+              </span>
+            )}
+          </div>
+        ))}
       </div>
     </section>
   );
